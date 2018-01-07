@@ -107,9 +107,20 @@ router.get('/about', function(req, res, next) {
   return res.render('about', { title: 'About' });
 });
 
-router.get('/dashboard', function (req, res, next) {
-  return res.render('dashboard', { title: 'Dashboard' });
+// router.get('/dashboard', function (req, res, next) {
+//   return res.render('dashboard', { title: 'Dashboard' });
+// });
+router.get('/dashboard', mid.requiresLogin, function(req, res, next) {
+  User.findById(req.session.userId)
+      .exec(function (error, user) {
+        if (error) {
+          return next(error);
+        } else {
+          return res.render('dashboard', { title: 'dashboard', name: user.name });
+        }
+      });
 });
+
 
 // GET /contact
 router.get('/contact', function(req, res, next) {
