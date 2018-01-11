@@ -16,6 +16,12 @@ var UserSchema = new mongoose.Schema({
       type: String,
       required: true
     },
+    city: {
+      type: String,
+    },
+    website:{
+      type: String,
+    }
 });
 // authenticate input against database documents
 UserSchema.statics.authenticate = function(email, password, callback) {

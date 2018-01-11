@@ -12,7 +12,7 @@ block content
               style(type='text/css').
                 .gm-style-pbc{transition:opacity ease-in-out;background-color:rgba(0,0,0,0.45);text-align:center}.gm-style-pbt{font-size:22px;color:white;font-family:Roboto,Arial,sans-serif;position:relative;margin:0;top:50%;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%)}
               // Title
-              title #{name} | Profile
+              title | Profile
               |  
             body.page-header-fixed.pace-done(data-gr-c-s-loaded='true')
               .pace.pace-inactive
@@ -27,7 +27,7 @@ block content
               .menu-wrap
                 nav.profile-menu
                   .profile
-                    img(src='assets/images/profile-menu-image.png', width='60', alt='#{name}')
+                    img(src='/images/bitkey.png', width='60', alt='#{name}')
                     span #{name}
                   |                 
                   .profile-menu-list
@@ -43,7 +43,7 @@ block content
                         i.fa.fa-bars
                     |                     
                     .logo-box
-                      a.logo-text(href='index.html')
+                      a.logo-text(href='/')
                         span CoinSense
                     // Logo Box
                     .search-button
@@ -66,7 +66,7 @@ block content
                                 | #{name}
                                 i.fa.fa-angle-down
                               |                                         
-                              img.img-circle.avatar(src='assets/images/avatar1.png', width='40', height='40', alt='')
+                              img.img-circle.avatar(src='/images/bitkey.png', width='40', height='40', alt='')
                             |                                     
                             ul.dropdown-menu.dropdown-list(role='menu')
                               li(role='presentation')
@@ -89,13 +89,13 @@ block content
                         .sidebar-profile
                           a#profile-menu-link(href='javascript:void(0);')
                             .sidebar-profile-image
-                              img.img-circle.img-responsive(src='assets/images/profile-menu-image.png', alt='')
+                              img.img-circle.img-responsive(src='/images/mining.png', alt='')
                             |                                 
                             .sidebar-profile-details
                               span
-                                | #{name}
+                                | #{name} 
                                 br
-                                small Art Director
+                                small Username
                       |                     
                       ul.menu.accordion-menu
                         li
@@ -104,7 +104,7 @@ block content
                             p Dashboard
                         |                         
                         li.active
-                          a.waves-effect.waves-button(href='profile.html')
+                          a.waves-effect.waves-button(href='/profile')
                             span.menu-icon.glyphicon.glyphicon-user
                             p Profile
                         |                         
@@ -118,15 +118,15 @@ block content
                     .row
                       .col-md-3.profile-image
                         .profile-image-container
-                        | #{avatar}
+                        img(src='/images/mining.png', alt='')
                       |                         
                   |                 
                   #main-wrapper
                     .row
                       .col-md-3.user-profile
-                        h3.text-center #{name}
+                        h4.text-center Hello
                         |                             
-                        p.text-center UI/UX Designer
+                        h3.text-center.lead #{name}
                         |                             
                         hr
                         |                             
@@ -134,36 +134,23 @@ block content
                           li
                             p
                               
-                              form(method='POST' action='/register')
+                              form(method='POST' action='/updateProfile')
                                 div.form-group
-                                  label(for ='city') City:
-                                  input#city.form-control(type='text', placeholder='Current City' name='city')
-                                  
-                          |                                
-                          li
-                            p
-                              i.fa.fa-envelope.m-r-xs
-                              
-                              a(href='#') #{email}
-                          |                                 
-                          li
-                            p
-                             
-                              form(method='POST' action='/register')
+                                  label(for ='city') Change City: #{city}
+                                  input#city.form-control(type='text',  placeholder='Current City' name='city')
                                 div.form-group
-                                  label(for='website') Website:
+                                  label(for='website') Change Website: #{website}
                                   input#name.form-control(type='text', placeholder='Your Website' name='website')
-                              a(href='#')  
-                              i.fa.fa-link.m-r-xs
-                        |                             
-                        hr
-                        |
-                        
-                        form(method='POST', enctype='multipart/form-data')
-                        input(type='file', name='upl')
-                        button.btn.btn-primary.btn-block(type='submit', name='uploadimage', value='Upload Image')
-                          i.fa.fa-plus.m-r-xs
-                          | Upload Profile Image                 
+                                  a(href='#')  
+                                |
+                                button.btn.btn-success(type='submit') Submit Changes                                
+                        |                               
+                        //- form(method='POST', enctype='multipart/form-data')
+                        //- div.form-group
+                        //-   input(type='file', name='upl')
+                        //-   button.btn.btn-primary.btn-block(type='submit', name='uploadimage', value='Upload Image')
+                        //-     i.fa.fa-plus.m-r-xs
+                        //-     | Upload Profile Image                 
                       |                         
                       .col-md-6.m-t-lg
                         .panel.panel-dark
@@ -177,36 +164,94 @@ block content
                             li.timeline-item
                               .panel.panel-dark
                                 .panel-body
+                                form(method='POST' action="/updateBTC")
+                                  div.form-group
+                                    img.img-circle(src='/images/btcAv.png', width='30', height='30', alt='')
+                                    input#btc.form-control(type='number', placeholder='' name='btc')
+                                    a(href='#')  
+                                  |
+                                  button.btn.btn-success(type='submit' name="trade" value="Buy") Buy
+                                  button.btn.btn-danger(type='submit' name="trade" value="Sell") Sell 
+                                  
                             |                                     
                             li.timeline-item
                               .panel.panel-dark
                                 .panel-body
+                                form(method='POST' action="/updateETH")
+                                  div.form-group
+                                    img.img-circle(src='/images/ethAv.jpg', width='30', height='30', alt='')
+                                    input#eth.form-control(type='number', placeholder='' name='eth')
+                                    a(href='#')  
+                                  |
+                                  button.btn.btn-success(type='submit' name="trade" value="Buy") Buy
+                                  button.btn.btn-danger(type='submit' name="trade" value="Sell") Sell 
                             |                                     
                             li.timeline-item
                               .panel.panel-dark
                                 .panel-body
+                                form(method='POST' action="/updateLIT")
+                                  div.form-group
+                                    img.img-circle(src='/images/ltcAv.jpg', width='30', height='30', alt='')
+                                    input#lit.form-control(type='number', placeholder='' name='lit')
+                                    a(href='#')  
+                                  |
+                                  button.btn.btn-success(type='submit' name="trade" value="Buy") Buy
+                                  button.btn.btn-danger(type='submit' name="trade" value="Sell") Sell 
                       |                         
                       .col-md-3.m-t-lg
                         .panel.panel-dark
                           .panel-heading
-                            .panel-title Team
+                            .panel-title Trending Currencies
                           |                                 
                           .panel-body
+                            .team
+                              .team-member
+                                img(src='/images/btcAV.png', alt='')
+                              .team-member
+                                img(src='/images/ltcAV.jpg', alt='')
+                              .team-member
+                                img(src='/images/ethAV.jpg', alt='')
+                              .team-member
+                                img(src='/images/merAV.jpg', alt='')
+                              .team-member
+                                img(src='/images/dashAV.jpg', alt='')
                         |
                         .panel.panel-dark
                           .panel-heading
-                            .panel-title Some Info
+                            .panel-title Placeholder
                           |                                 
                           .panel-body
                             p
-                              | Nullam quis risus eget urna mollis ornare vel eu leo. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam id dolor id nibh ultricies vehicula.
+                              | Placeholder
                         |                             
+                        .col-lg-4.col-md-6
                         .panel.panel-dark
                           .panel-heading
-                            .panel-title Skills
-                          |                                 
+                            h4.panel-title #{name}'s Portfolio
+                            .panel-control
+                              a.panel-reload(href='javascript:void(0);', data-toggle='tooltip', data-placement='top', title='', data-original-title='Reload')
+                                i.icon-reload
                           .panel-body
-                  |                 
+                            .slimScrollDiv(style='position: relative; overflow: hidden; width: auto; height: 20%;')
+                              .inbox-widget.slimscroll(style='overflow: hidden; width: auto; height: 30%;')
+                                  .inbox-item
+                                    .inbox-item-img
+                                      img.img-circle(src='/images/btcAV.png', alt='')
+                                    p.live-title Your Bitcoins
+                                    p.inbox-item-date #{btc} BTC
+                                  .inbox-item
+                                    .inbox-item-img
+                                      img.img-circle(src='/images/ethAV.jpg', alt='')
+                                    p.live-title Your Ethereum
+                                    p.inbox-item-date #{eth} ETH
+                                  .inbox-item
+                                    .inbox-item-img
+                                      img.img-circle(src='/images/ltcAV.jpg', alt='')
+                                    p.live-title Your Litecoins
+                                    p.inbox-item-date #{lit} LTC
+                              .slimScrollBar(style='background: rgb(204, 204, 204); width: 7px; position: absolute; top: 0px; opacity: 0.3; display: none; border-radius: 0px; z-index: 99; right: 0px; height: 298.923px;')
+                              .slimScrollRail(style='width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 0px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 0px;')
+                            |                 
                   .page-footer
                 // Page Inner
               // Page Content
