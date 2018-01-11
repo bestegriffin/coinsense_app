@@ -3,7 +3,7 @@ nav.navbar.navbar-fixed-top.navbar-dark.bg-inverse
   #navbar.navbar-nav.collapse.navbar-toggleable-sm
     .container
       a.navbar-brand(href='/')
-        i.icn-logo.material-icons bookmark_border
+        i.icn-logo.material-icons graphic_eq
         | CoinSense
       .nav-items.clearfix
         if !currentUser
@@ -14,7 +14,7 @@ nav.navbar.navbar-fixed-top.navbar-dark.bg-inverse
         
       if currentUser
         div
-          img.avatar.img-circle.hidden-xs-down(src='/images/avatar.png', alt='avatar')
+          img.avatar.img-circle.hidden-xs-down(src='/images/avatarCoin.png', alt='avatar')
           a.btn.btn-light.pull-md-right(href='/logout') Log out
       else  
         a.btn.btn-info.pull-md-right(href='login') Login

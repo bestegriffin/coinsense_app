@@ -29,7 +29,7 @@ block content
               i.fa.fa-bars
           |                     
           .logo-box
-            a.logo-text(href='/index')
+            a.logo-text(href='/')
               span CoinSense
           // Logo Box
           .search-button
@@ -50,56 +50,7 @@ block content
                 li
                   a.waves-effect.waves-button.waves-classic.toggle-fullscreen(href='javascript:void(0);')
                     i.fa.fa-expand
-                |                                 
-                li.dropdown
-                  a.dropdown-toggle.waves-effect.waves-button.waves-classic(href='#', data-toggle='dropdown')
-                    i.fa.fa-cogs
-                  |                                     
-                  ul.dropdown-menu.dropdown-md.dropdown-list.theme-settings(role='menu')
-                    li.li-group
-                      ul.list-unstyled
-                        li.no-link(role='presentation')
-                          | Fixed Header 
-                          .ios-switch.pull-right.switch-md
-                            input.js-switch.pull-right.fixed-header-check(type='checkbox', checked='')
-                    |                                         
-                    li.li-group
-                      ul.list-unstyled
-                        li.no-link(role='presentation')
-                          | Fixed Sidebar 
-                          .ios-switch.pull-right.switch-md
-                            input.js-switch.pull-right.fixed-sidebar-check(type='checkbox')
-                        |                                                 
-                        li.no-link(role='presentation')
-                          | Horizontal bar 
-                          .ios-switch.pull-right.switch-md
-                            input.js-switch.pull-right.horizontal-bar-check(type='checkbox')
-                        |                                                 
-                        li.no-link(role='presentation')
-                          | Toggle Sidebar 
-                          .ios-switch.pull-right.switch-md
-                            input.js-switch.pull-right.toggle-sidebar-check(type='checkbox')
-                        |                                                 
-                        li.no-link(role='presentation')
-                          | Compact Menu 
-                          .ios-switch.pull-right.switch-md
-                            input.js-switch.pull-right.compact-menu-check(type='checkbox')
-                        |                                                 
-                        li.no-link(role='presentation')
-                          | Hover Menu 
-                          .ios-switch.pull-right.switch-md
-                            input.js-switch.pull-right.hover-menu-check(type='checkbox')
-                    |                                         
-                    li.li-group
-                      ul.list-unstyled
-                        li.no-link(role='presentation')
-                          | Boxed Layout 
-                          .ios-switch.pull-right.switch-md
-                            input.js-switch.pull-right.boxed-layout-check(type='checkbox')
-                    |                                         
-                    li.no-link
-                      button.btn.btn-default.reset-options Reset Options
-              |                             
+                |                                                         
               ul.nav.navbar-nav.navbar-right
                 li
                   a.waves-effect.waves-button.waves-classic.show-search(href='javascript:void(0);')
@@ -111,7 +62,7 @@ block content
                       | #{name}
                       i.fa.fa-angle-down
                     |                                         
-                    img.img-circle.avatar(src='assets/images/avatar1.png', width='40', height='40', alt='')
+                    img.img-circle.avatar(src='/images/bitkey.png', width='40', height='40', alt='')
                   |                                     
                   ul.dropdown-menu.dropdown-list(role='menu')
                     li(role='presentation')
@@ -139,13 +90,13 @@ block content
             .sidebar-profile
               a#profile-menu-link(href='javascript:void(0);')
                 .sidebar-profile-image
-                  img.img-circle.img-responsive(src='assets/images/profile-menu-image.png', alt='')
+                  img.img-circle.img-responsive(src='/images/bitkey.png', alt='')
                 |                                 
                 .sidebar-profile-details
                   span
                     | #{name}
                     br
-                    small Graphic Designer
+                    small Username
           |                     
           ul.menu.accordion-menu
             li.active
@@ -177,7 +128,9 @@ block content
               .panel.info-box.panel-dark
                 .panel-body
                   .info-box-stats
-                    p.counter 16930.42
+                    p
+                      | $
+                      span.counter 16930.42
                     |                                         
                     span.info-box-title Bitcoin Current Price 
                   |                                     
@@ -192,7 +145,9 @@ block content
               .panel.info-box.panel-dark
                 .panel-body
                   .info-box-stats
-                    p.counter 696.14
+                    p
+                      | $
+                      span.counter 696.14
                     |                                         
                     span.info-box-title Ethereum Current Price
                   |                                     
@@ -211,7 +166,7 @@ block content
                       | $
                       span.counter 222.07
                     |                                         
-                    span.info-box-title LiteCoin Current Price 
+                    span.info-box-title Litecoin Current Price 
                   |                                     
                   .info-box-icon
                     i.icon-
@@ -224,9 +179,9 @@ block content
               .panel.info-box.panel-dark
                 .panel-body
                   .info-box-stats
-                    p.counter 40
-                    |                                         
-                    span.info-box-title Your Portfolio Value 
+                    |
+                    span.info-box-title  #{name}'s Dashboard  
+                    |                                        
                   |                                     
                   .info-box-icon
                     i.icon-favorite
@@ -257,8 +212,8 @@ block content
                           li
                             | Bitcoin
                             .text-success.pull-right
-                              | 1000%
-                              i.fa.fa-level-up
+                              | 8%
+                              i.fa.fa-level-down
                           |                                                     
                           li
                             | Etherum
@@ -311,7 +266,7 @@ block content
                 .panel-body
                   .server-load
                     .server-stat
-                      span Refresh Time
+                      span
                       |                                             
                       p Real time
                     |                                         
@@ -437,51 +392,64 @@ block content
             .col-lg-4.col-md-6
               .panel.panel-dark
                 .panel-heading
-                  h4.panel-title Inbox
-                  |                                     
+                  h4.panel-title #{name}'s Portfolio
                   .panel-control
-                    a.panel-reload(href='javascript:void(0);', data-toggle='tooltip', data-placement='top', title='Reload')
+                    a.panel-reload(href='javascript:void(0);', data-toggle='tooltip', data-placement='top', title='', data-original-title='Reload')
                       i.icon-reload
-            
+                .panel-body
+                  .slimScrollDiv(style='position: relative; overflow: hidden; width: auto; height: 45%;')
+                    .inbox-widget.slimscroll(style='overflow: hidden; width: auto; height: 100%;')
+                        .inbox-item
+                          .inbox-item-img
+                            img.img-circle(src='/images/btcAV.png', alt='')
+                          p.live-title Your Bitcoins
+                          p.inbox-item-date #{btc} BTC
+                        .inbox-item
+                          .inbox-item-img
+                            img.img-circle(src='/images/ethAV.jpg', alt='')
+                          p.live-title Your Ethereum
+                          p.f-s-18.inbox-item-date #{eth} ETH
+                        .inbox-item
+                          .inbox-item-img
+                            img.img-circle(src='/images/ltcAV.jpg', alt='')
+                          p.live-title Your Litecoins
+                          p.inbox-item-date #{lit} LIT
+                    .slimScrollBar(style='background: rgb(204, 204, 204); width: 7px; position: absolute; top: 0px; opacity: 0.3; display: none; border-radius: 0px; z-index: 99; right: 0px; height: 298.923px;')
+                    .slimScrollRail(style='width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 0px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 0px;')
+
+                                  
                                 
             .col-lg-3.col-md-6
               .panel.twitter-box
                 .panel-body
                   .live-tile(data-mode='flip', data-speed='750', data-delay='3000')
-                    span.tile-title.pull-right New Tweets
+                    span.tile-title.pull-right News
                     |                                         
-                    i.fa.fa-twitter
-                    |                                         
-                    div
-                      h2.no-m It&rsquo;s kind of fun to do the impossible...
-                      span.tile-date 10 April, 2015
+                    //- i.fa.fa-twitter
                     |                                         
                     div
-                      h2.no-m Sometimes by losing a battle you find a new way to win the war...
-                      span.tile-date 6 April, 2015
+                      h2.no-m *All* crypto communities, ethereum included, should heed these words of warning...
+                      span.tile-date 13 January, 2018
+                    |                                         
+                    div
+                      h2.no-m Those who didn’t buy $XRP on the dip will regret this when Japan wakes up! 
+                      span.tile-date 13 January, 2018
               |                             
               .panel.facebook-box
                 .panel-body
                   .live-tile(data-mode='carousel', data-direction='horizontal', data-speed='750', data-delay='4500')
-                    span.tile-title.pull-right Facebook Feed
+                    span.tile-title.pull-right Facebook
                     |                                         
-                    i.fa.fa-facebook
-                    |                                         
-                    div
-                      h2.no-m If you&apos;re going through hell, keep going...
-                      span.tile-date 23 March, 2015
+                    //- i.fa.fa-facebook
                     |                                         
                     div
-                      h2.no-m To improve is to change; to be perfect is to change often...
-                      span.tile-date 15 March, 2015
+                      h2.no-m Check out our actual TOP10 CryptoCurrency price index! ...
+                      span.tile-date @cryptocurrency
+                    |                                         
+                    div
+                      h2.no-m There are a lot of scams out there. Do your ICO research!...
+                      span.tile-date @cryptocurrencyupdates
             |                         
-            .col-lg-12.col-md-12
-              .panel.panel-dark
-                .panel-heading
-                  h4.panel-title Project Stats
-                |                                 
-                .panel-body
-            |
         // Main Wrapper
         .page-footer
           p.no-s 2018 CoinSense - CWRU Bootcamp Project.
@@ -495,19 +463,33 @@ block content
       |             
       ul.cd-nav.list-unstyled
         li.cd-selected(data-menu='index')
-          a(href='javsacript:void(0);')
+          a(href='/dashboard')
             span
               i.glyphicon.glyphicon-home
             |                         
             p Dashboard
         |                 
         li(data-menu='profile')
-          a(href='javsacript:void(0);')
+          a(href='/profile')
             span
               i.glyphicon.glyphicon-user
             |                         
             p Profile
-        |                 
+        | 
+        li(data-menu='Contact')
+          a(href='/contact')
+            span
+              i.glyphicon.glyphicon-envelope
+            |                         
+            p Contact Us
+        |
+        li(data-menu=' Crypto Facts')
+          a(href='/facts')
+            span
+              i.glyphicon.glyphicon-ok
+            |                         
+            p More Facts on Crypto Currency 
+        |                     
     |         
     .cd-overlay
     // Javascripts

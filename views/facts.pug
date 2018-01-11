@@ -1,0 +1,9 @@
+extends adminDashboard 
+block content
+ 
+        .container
+            h2 Responsive Embed
+            p
+                | You found a hidden Gem!
+            .embed-responsive.embed-responsive-16by9
+                iframe.embed-responsive-item(width='100%', height='100%', src='//www.cryptocurrencyfacts.com', frameborder='0', allowfullscreen='')

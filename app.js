@@ -20,7 +20,7 @@ app.use(function (req, res, next) {
 });
 
 // mongodb connection
-mongoose.connect("mongodb://heroku_crtwx80t:cujsjdqt01oar8r80vkl2p2024@ds163836.mlab.com:63836/heroku_crtwx80t");
+mongoose.connect("mongodb://heroku_crtwx80t:cujsjdqt01oar8r80vkl2p2024@ds163836.mlab.com:63836/heroku_crtwx80t", {useMongoClient: true});
 var db = mongoose.connection;
 // mongo error
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -57,7 +57,9 @@ app.use(function(err, req, res, next) {
   });
 });
 
+
+
 // listen on port 3000
 app.listen(port, function () {
-  console.log('Express app listening on port 3000');
+  console.log('Express app listening on port 8000');
 });

@@ -1,130 +1,285 @@
 var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
+var Portfolio = require('../models/portfolio');
+var Profile = require('../models/Profile');
 var mid = require('../middleware');
 
 // GET /profile
 router.get('/profile', mid.requiresLogin, function(req, res, next) {
-  User.findById(req.session.userId)
-      .exec(function (error, user) {
-        if (error) {
-          return next(error);
-        } else {
-          return res.render('profile', { title: 'Profile', name: user.name });
-        }
-      });
+    User.findById(req.session.userId)
+        .exec(function(error, user) {
+            if (error) {
+                return next(error);
+            } else {
+
+                Portfolio.find({ 'id': req.session.userId })
+                    .exec(function(error, portfolio) {
+                        if (error) {
+                            return next(error);
+                        } else {
+                            portfolio = portfolio[0];
+                            return res.render('profile', { title: 'profile', name: user.name, btc: portfolio['btn'], lit: portfolio.lit, eth: portfolio.eth });
+                        }
+
+                    });
+            }
+        });
 });
 
 // GET /logout
 router.get('/logout', function(req, res, next) {
-  if (req.session) {
-    // delete session object
-    req.session.destroy(function(err) {
-      if(err) {
-        return next(err);
-      } else {
-        return res.redirect('/');
-      }
-    });
-  }
+    if (req.session) {
+        // delete session object
+        req.session.destroy(function(err) {
+            if (err) {
+                return next(err);
+            } else {
+                return res.redirect('/');
+            }
+        });
+    }
 });
 
 // GET /login
 router.get('/login', mid.loggedOut, function(req, res, next) {
-  return res.render('login', { title: 'Log In'});
+    return res.render('login', { title: 'Log In' });
 });
 
 // POST /login
 router.post('/login', function(req, res, next) {
-  if (req.body.email && req.body.password) {
-    User.authenticate(req.body.email, req.body.password, function (error, user) {
-      if (error || !user) {
-        var err = new Error('Wrong email or password.');
+    if (req.body.email && req.body.password) {
+        User.authenticate(req.body.email, req.body.password, function(error, user) {
+            if (error || !user) {
+                var err = new Error('Wrong email or password.');
+                err.status = 401;
+                return next(err);
+            } else {
+                req.session.userId = user._id;
+                return res.redirect('/profile');
+            }
+        });
+    } else {
+        var err = new Error('Email and password are required.');
         err.status = 401;
         return next(err);
-      }  else {
-        req.session.userId = user._id;
-        return res.redirect('/profile');
-      }
-    });
-  } else {
-    var err = new Error('Email and password are required.');
-    err.status = 401;
-    return next(err);
-  }
+    }
 });
 
-// GET /register
+
+
+
+
+
 router.get('/register', mid.loggedOut, function(req, res, next) {
-  return res.render('register', { title: 'Sign Up' });
+    return res.render('register', { title: 'Sign Up' });
 });
-
-// POST /register
+// GET /register
 router.post('/register', function(req, res, next) {
-  if (req.body.email &&
-    req.body.name &&
-    req.body.password &&
-    req.body.confirmPassword) {
+    if (req.body.email &&
+        req.body.name &&
+        req.body.password &&
+        req.body.confirmPassword) {
 
-      // confirm that user typed same password twice
-      if (req.body.password !== req.body.confirmPassword) {
-        var err = new Error('Passwords do not match.');
-        err.status = 400;
-        return next(err);
-      }
-
-      // create object with form input
-      var userData = {
-        email: req.body.email,
-        name: req.body.name,
-        password: req.body.password,
-      };
-
-      // use schema's `create` method to insert document into Mongo
-      User.create(userData, function (error, user) {
-        if (error) {
-          return next(error);
-        } else {
-          req.session.userId = user._id;
-          return res.redirect('/profile');
+        // confirm that user typed same password twice
+        if (req.body.password !== req.body.confirmPassword) {
+            var err = new Error('Passwords do not match.');
+            err.status = 400;
+            return next(err);
         }
-      });
+
+        // create object with form input
+        var userData = {
+            email: req.body.email,
+            name: req.body.name,
+            password: req.body.password,
+        };
+
+        // use schema's `create` method to insert document into Mongo
+        User.create(userData, function(error, user) {
+            if (error) {
+                return next(error);
+            } else {
+                req.session.userId = user._id;
+                var userportfolio = {
+                    id: user._id,
+                    btn: 0,
+                    eth: 0,
+                    lit: 0,
+
+                };
+                Portfolio.create(userportfolio, function(error, user) {
+                    if (error) { console.log(error) }
+                });
+                return res.redirect('/profile');
+            }
+        });
+
+
 
     } else {
-      var err = new Error('All fields required.');
-      err.status = 400;
-      return next(err);
+        var err = new Error('All fields required.');
+        err.status = 400;
+        return next(err);
     }
 })
 
+
 // GET /
 router.get('/', function(req, res, next) {
-  return res.render('index', { title: 'Home' });
+    return res.render('index', { title: 'Home' });
 });
 
 // GET /about
 router.get('/about', function(req, res, next) {
-  return res.render('about', { title: 'About' });
+    return res.render('about', { title: 'About' });
 });
-
+router.get('/facts', function(req, res, next) {
+    return res.render('facts', { title: 'CryptoKnow' });
+});
 // router.get('/dashboard', function (req, res, next) {
 //   return res.render('dashboard', { title: 'Dashboard' });
 // });
 router.get('/dashboard', mid.requiresLogin, function(req, res, next) {
-  User.findById(req.session.userId)
-      .exec(function (error, user) {
-        if (error) {
-          return next(error);
-        } else {
-          return res.render('dashboard', { title: 'dashboard', name: user.name });
-        }
-      });
+    User.findById(req.session.userId)
+        .exec(function(error, user) {
+            if (error) {
+                return next(error);
+            } else {
+                // Portfolio.find({})
+                Portfolio.find({ 'id': req.session.userId })
+                    .exec(function(error, portfolio) {
+                        if (error) {
+                            console.log(error)
+                            return next(error);
+                        } else {
+                            console.log(portfolio);
+                            portfolio = portfolio[0];
+                            return res.render('dashboard', { title: 'dashboard', name: user.name, btc: portfolio.btn, lit: portfolio.lit, eth: portfolio.eth });
+                        }
+                    });
+            }
+        });
+});
+
+router.post('/updateBTC', mid.requiresLogin, function(req, res, next) {
+    if (req.body.btc) {
+        Portfolio.find({ 'id': req.session.userId })
+            .exec(function(error, OldPortfolio) {
+                if (error) {
+                    console.log(error)
+                    return next(error);
+                } else {
+                    OldPortfolio = OldPortfolio[0];
+                    var btc;
+                    if (req.body.trade == 'Sell') {
+                        btc = parseFloat(OldPortfolio.btn) - parseFloat(req.body.btc);
+                        if (btc < 0) { btc = 0 }
+                    } else {
+                        btc = parseFloat(OldPortfolio.btn) + parseFloat(req.body.btc);
+                    }
+                    var portfolioData = {
+                        id: req.session.userId,
+                        btn: btc,
+                        lit: OldPortfolio.lit,
+                        eth: OldPortfolio.eth,
+                    };
+                    Portfolio.update({ id: req.session.userId }, portfolioData, { upsert: true }, function(error, user) {
+                        if (error) { console.log(error) }
+                    });
+                    return res.redirect('/profile');
+                }
+
+            });
+    }
+});
+
+router.post('/updateETH', mid.requiresLogin, function(req, res, next) {
+    if (req.body.eth) {
+        Portfolio.find({ 'id': req.session.userId })
+            .exec(function(error, OldPortfolio) {
+                if (error) {
+                    console.log(error)
+                    return next(error);
+                } else {
+                    OldPortfolio = OldPortfolio[0];
+                    var eth;
+                    if (req.body.trade == 'Sell') {
+                        eth = parseFloat(OldPortfolio.eth) - parseFloat(req.body.eth);
+                        if (eth < 0) { eth = 0 }
+                    } else {
+                        eth = parseFloat(OldPortfolio.eth) + parseFloat(req.body.eth);
+                    }
+                    var portfolioData = {
+                        id: req.session.userId,
+                        btn: OldPortfolio.btn,
+                        lit: OldPortfolio.lit,
+                        eth: eth,
+                    };
+                    Portfolio.update({ id: req.session.userId }, portfolioData, { upsert: true }, function(error, user) {
+                        if (error) { console.log(error) }
+                    });
+
+                    return res.redirect('/profile');
+                }
+
+            });
+    }
 });
 
 
+router.post('/updateLIT', mid.requiresLogin, function(req, res, next) {
+    if (req.body.lit) {
+        Portfolio.find({ 'id': req.session.userId })
+            .exec(function(error, OldPortfolio) {
+                if (error) {
+                    console.log(error)
+                    return next(error);
+                } else {
+                    OldPortfolio = OldPortfolio[0];
+                    var lit;
+                    if (req.body.trade == 'Sell') {
+                        lit = parseFloat(OldPortfolio.lit) - parseFloat(req.body.lit);
+                        if (lit < 0) { lit = 0 }
+                    } else {
+                        lit = parseFloat(OldPortfolio.lit) + parseFloat(req.body.lit);
+                    }
+                    var portfolioData = {
+                        id: req.session.userId,
+                        btn: OldPortfolio.btn,
+                        lit: lit,
+                        eth: OldPortfolio.eth,
+                    };
+                    Portfolio.update({ id: req.session.userId }, portfolioData, { upsert: true }, function(error, user) {
+                        if (error) { console.log(error) }
+                    });
+
+                    return res.redirect('/profile');
+                }
+
+            });
+    }
+});
+
+
+
+router.post('/updateProfile', mid.requiresLogin, function(req, res, next) {
+
+    var profileData = {
+        id: req.session.userId,
+        city: req.body.city,
+        website: req.body.website,
+    };
+    Profile.update({ _id: req.session.userId }, profileData, { upsert: true }, function(error, user) {
+        if (error) { console.log(error) }
+    });
+    return res.redirect('/profile');
+
+});
+
 // GET /contact
 router.get('/contact', function(req, res, next) {
-  return res.render('contact', { title: 'Contact' });
+    return res.render('contact', { title: 'Contact' });
 });
 
 
